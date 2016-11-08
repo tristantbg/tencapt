@@ -1,6 +1,0 @@
-RewriteEngine On
-RewriteCond %{HTTP:Origin} !^$|http(s)?://(www\.)?scan-services\.fr$ [NC]
-RewriteRule \.(woff|eot)$ - [NC,L]
-RewriteCond %{HTTP_REFERER} !.
-RewriteRule \.(woff|eot)$ - [F,NC,L]
-Options -Indexes

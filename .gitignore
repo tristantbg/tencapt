@@ -2,6 +2,7 @@
 Thumbs.db
 /content/*
 /lib
+/assets/fonts/*
 /assets/css/app.min.css
 /assets/css/build/*
 /assets/js/app.concat.js
