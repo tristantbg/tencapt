@@ -1,12 +1,18 @@
 /* globals $:false */
-var width = $(window).width(),
-    height = $(window).height(),
+var width,
+    height,
+    menuHeight,
+    $cropper,
+    $preview,
+    sliderIndex = 0,
+    imagesNumber = 0,
+    isMobile = false,
     $root = '/';
 $(function() {
     var app = {
         init: function() {
-            $(window).resize(function(event) {});
             $(document).ready(function($) {
+                app.sizeSet();
                 $body = $('body');
                 History.Adapter.bind(window, 'statechange', function() {
                     var State = History.getState();
@@ -23,20 +29,37 @@ $(function() {
                 });
                 //left
                 $(document).keyup(function(e) {
-                    if (e.keyCode === 37 && $slider) app.goPrev($slider);
+                    if (e.keyCode === 37 && $cropper) app.prevCrop();
                 });
                 //right
                 $(document).keyup(function(e) {
-                    if (e.keyCode === 39 && $slider) app.goNext($slider);
+                    if (e.keyCode === 39 && $cropper) app.nextCrop();
                 });
+                app.menuScroll();
                 $(window).load(function() {
+                    app.loadCropper();
                     $(".loader").fadeOut("fast");
+                });
+                $(window).resize(function(event) {
+                    app.sizeSet();
+                    if ($cropper) {
+                        $preview.css('width', '');
+                        var newWidth = $preview.width();
+                        $cropper.cropit('previewSize', {
+                            width: newWidth,
+                            height: height * 0.65
+                        });
+                    }
                 });
             });
         },
         sizeSet: function() {
             width = $(window).width();
             height = $(window).height();
+            menuHeight = $('header').outerHeight() + 4;
+            var lastSection = $('#sections section:last-of-type');
+            var lastSectionHeight = lastSection.outerHeight();
+            lastSection.css('margin-bottom', height - lastSectionHeight - menuHeight);
             if (width <= 770 || Modernizr.touch) isMobile = true;
             if (isMobile) {
                 if (width >= 770) {
@@ -44,10 +67,74 @@ $(function() {
                 }
             }
         },
+        loadCropper: function() {
+            if (typeof $cropperImages != 'undefined') {
+                $cropper = $('#tencapture-cropper');
+                $preview = $('.cropit-preview');
+                imagesNumber = pad($cropperImages.length);
+                $cropper.cropit({
+                    imageState: {
+                        src: $cropperImages[0].image
+                    },
+                    minZoom: 'fit',
+                    onImageLoaded: function() {
+                        $('#percent').html(Math.floor($('#range').val() * 100) + '%');
+                        $('.image-number').text(pad(sliderIndex + 1) + '/' + imagesNumber);
+                        $('.image-caption').text($cropperImages[sliderIndex].caption);
+                    }
+                });
+                $body.on('click', '.cropit-preview', function(event) {
+                    event.preventDefault();
+                    app.nextCrop();
+                });
+                $body.on('input', '#range', function() {
+                    $('#percent').html(Math.floor($(this).val() * 100) + '%');
+                });
+            }
+        },
+        menuScroll: function() {
+            app.navScroll();
+            $(document).on("scroll", app.navScroll);
+            //smoothscroll
+            smoothScroll.init({
+                selector: '.section-link', // Selector for links (must be a class, ID, data attribute, or element tag)
+                selectorHeader: 'header', // Selector for fixed headers (must be a valid CSS selector) [optional]
+                speed: 1000, // Integer. How fast to complete the scroll in milliseconds
+                easing: 'easeInOutCubic', // Easing pattern to use
+            });
+        },
+        navScroll: function(event) {
+            var scrollPos = $(document).scrollTop();
+            $('.section-link').each(function() {
+                var currLink = $(this);
+                var refElement = $(currLink.attr("href"));
+                var parent = currLink.parent();
+                if (refElement.position().top - menuHeight <= scrollPos && refElement.position().top - menuHeight + refElement.outerHeight(true) > scrollPos) {
+                    $('.menu span').removeClass("outline");
+                    parent.addClass("outline");
+                } else {
+                    parent.removeClass("outline");
+                }
+            });
+        },
         goIndex: function() {
             History.pushState({
                 type: 'index'
             }, $sitetitle, window.location.origin + $root);
+        },
+        prevCrop: function() {
+            sliderIndex--;
+            if (sliderIndex < 0) {
+                sliderIndex = $cropperImages.length - 1;
+            }
+            $cropper.cropit('imageSrc', $cropperImages[sliderIndex].image);
+        },
+        nextCrop: function() {
+            sliderIndex++;
+            if (sliderIndex > $cropperImages.length - 1) {
+                sliderIndex = 0;
+            }
+            $cropper.cropit('imageSrc', $cropperImages[sliderIndex].image);
         },
         loadContent: function(url, target) {
             $.ajax({
@@ -68,3 +155,7 @@ $(function() {
     };
     app.init();
 });
+
+function pad(d) {
+    return (d < 10) ? '0' + d.toString() : d.toString();
+}

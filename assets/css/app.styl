@@ -9,39 +9,112 @@ $tablet = 768px
 $mobile = 400px
 
 // Colors
+$back ?= #f2f2f2
 $primary ?= #fff
 $secondary ?= #000
+$accent ?= #ff0000
 
 // Metrics
 $padding = 10px
 
 // CSS Reset
 global-reset()
+@import '_input.styl'
 
-webfont('Franklin Gothic', 'franklingothic', true, 'bold')
+webfont('BatonTurboWeb-Book', 'BatonTurboWeb-Book', true, 'normal')
 
 body,html
 	width 100%
 	height 100%
-	background-color $primary
+	background-color $back
 	-webkit-text-size-adjust 100%
+
+html
+	font-size 62.5%
 
 body
 	text-rendering optimizeLegibility
 	font-smoothing()
-	font-size 62.5%
+	font-family 'BatonTurboWeb-Book', Helvetica, Arial, sans-serif
+	font-size 2.4rem
+	line-height 1.2em
 
 p
 	margin-bottom 1em
 
+sup
+	font-size 0.6em
+	margin-left 0.4em
+
+em, em a, em a:hover, em a:visited, em a:focus
+	color $accent
+
+table
+	width 100%
+	table-layout fixed
+	border-collapse collapse
+	font-size 0.6em
+	line-height 1em
+	margin-bottom 2.4rem
+
+table, th, td
+	border 2px solid black
+
+td, th
+	padding 0.5em
+
+table.strong
+	text-transform uppercase
+	font-size 1em
+	[colspan]
+		text-align center
+	p:last-of-type
+		margin-bottom 0
+
+table.index
+	font-size 1em
+	border none
+	white-space nowrap
+	table-layout initial
+	td, th
+		padding 0
+		border none
+	td:nth-child(2)
+		position relative
+		width 100%
+	td:nth-child(2)::after
+		content ''
+		height 2px
+		background $secondary
+		position absolute
+		width 95%
+		bottom .3em
+		left 2.5%
+	p:last-of-type
+		margin-bottom 0
+
+.indent
+	margin-left 1em
+	margin-top -1em
+
+.outline
+	display inline-block
+	text-transform uppercase
+	border 2px solid
+	padding .3em .3em .1em
+	background $back
+
 ::selection
 	background $secondary
+	color $back
 	
 ::-moz-selection
 	background $secondary
+	color $back
 
 *
-	hideselect()
+	//hideselect()
+	box-sizing()
 
 a, a:hover, a:visited, a:focus
 	color inherit
@@ -49,11 +122,104 @@ a, a:hover, a:visited, a:focus
 	cursor pointer
 
 .loader
+	hideselect()
 	position fixed
 	width 100%
 	height 100%
 	top 0
 	left 0
-	background $primary url('../../images/loader.gif') center no-repeat
+	background $back url('../../images/loader.gif') center no-repeat
 	background-size 15px
 	z-index 10000
+
+header
+	position fixed
+	width 100%
+	top 0
+	left 0
+	text-align center
+	padding 3rem
+	z-index 1000
+	hideselect()
+	.site-title
+		display block
+		.outline
+			text-transform initial
+	.lang-select
+		position absolute
+		top 1.5rem
+		right 1.5rem
+		font-size .6em
+	.menu
+		display none
+		position absolute
+		width 100%
+		top 0
+		left 0
+		padding 3rem
+		text-transform uppercase
+		background $back
+		span
+			display inline-block
+			border 2px solid transparent
+			padding .3em .3em .1em
+		span.outline
+			border-color $secondary
+
+header:hover
+	.site-title
+		display none
+	.menu
+		display block
+
+#container
+	span(1)
+	margin-top 10rem
+	padding 0 3rem
+
+#tencapture-cropper
+	col(1/2, cycle:2)
+	overflow hidden
+	hideselect()
+	+above($tablet+1)
+		position fixed
+		width 46.5%
+		right 0
+		margin 0 3rem
+	+below($tablet)
+		stack()
+	.controls
+		flexbox()
+		align-items center
+		#percent
+			margin-right 1rem
+			min-width 2.6em
+		#range
+			padding 0 .7rem
+	.cropit-preview
+		width 100%
+		height 65vh
+	.image-info
+		position relative
+		margin-top 0.7em
+		.image-number
+			margin-right 1em
+		.image-caption
+			position absolute
+
+#sections
+	col(1/2)
+	+below($tablet)
+		stack()
+	section
+		display inline-block
+		margin-bottom 2em
+	section:last-of-type
+		margin-bottom 90vh
+	.section-title
+		hideselect()
+		margin-bottom 1em
+		margin-left 3em
+	ol
+		list-style decimal
+		padding-left 1em

@@ -29,9 +29,33 @@ of the system, please check out http://getkirby.com/docs/advanced/options
 
 */
 
-c::set('oembed.lazyvideo', true);
+c::set('debug', true);
+c::set('languages', array(
+  array(
+    'code'    => 'fr',
+    'name'    => 'FR',
+    'locale'  => 'fr_FR',
+    'url'     => '/fr',
+  ),
+  array(
+    'code'    => 'en',
+    'name'    => 'EN',
+    'default' => true,
+    'locale'  => 'en_US',
+    'url'     => '/en',
+  )
+));
+c::set('language.detect', false);
 c::set('sitemap.exclude', array('error'));
-c::set('sitemap.important', array('contact'));
+c::set('typography', true);
+c::set('typography.ordinal.suffix', false);
+c::set('typography.fractions', false);
+c::set('typography.dashes.spacing', false);
+c::set('typography.hyphenation', false);
+c::set('typography.hyphenation.minlength', 5);
+c::set('typography.hyphenation.headings', false);
+c::set('typography.hyphenation.allcaps', false);
+c::set('typography.hyphenation.titlecase', false);
 c::set('thumb.quality', 100);
 //c::set('thumbs.driver', 'im');
 c::set('routes', array(

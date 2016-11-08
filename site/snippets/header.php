@@ -48,8 +48,8 @@
 	<?php endif ?>
 
 	<meta itemprop="description" content="<?= $site->description()->html() ?>">
-	<link rel="shortcut icon" href="<?= url('assets/images/favicon.ico') ?>">
-	<link rel="icon" href="<?= url('assets/images/favicon.ico') ?>" type="image/x-icon">
+	<!-- <link rel="shortcut icon" href="<?= url('assets/images/favicon.ico') ?>">
+	<link rel="icon" href="<?= url('assets/images/favicon.ico') ?>" type="image/x-icon"> -->
 
 	<?php 
 	echo css('assets/css/build/build.min.css');
@@ -69,3 +69,30 @@
 <body>
 
 <div class="loader"></div>
+
+<header>
+	<div class="site-title">
+		<span class="outline"><?= $site->title()->html() ?></span>
+	</div>
+	<div class="menu">
+			<span>
+  				<a class="section-link" href="#about">About</a>
+  			</span>
+		<?php foreach($page->sections()->toStructure() as $section): ?>
+  			<span>
+  				<a class="section-link" href="#<?= tagslug($section->sectiontitle()->html()) ?>"><?= $section->sectiontitle()->html() ?></a>
+  			</span>
+		<?php endforeach ?>
+	</div>
+	<div class="lang-select">
+		<?php foreach($site->languages() as $language): ?>
+			<?php if($site->language() != $language): ?>
+				<a href="<?php echo $site->url($language->code()) ?>">
+					<?php echo html($language->name()) ?>
+				</a>
+			<?php endif ?>
+		<?php endforeach ?>
+	</div>
+</header>
+
+<div id="container">
