@@ -2,7 +2,11 @@
 
 title: Page
 pages: true
-files: true
+files:
+  fields:
+    focus:
+      label: Center crop
+      type: focus
 fields:
   title:
     label: Title

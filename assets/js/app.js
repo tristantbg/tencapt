@@ -47,7 +47,7 @@ $(function() {
                         var newWidth = $preview.width();
                         $cropper.cropit('previewSize', {
                             width: newWidth,
-                            height: height * 0.65
+                            height: height * 0.6
                         });
                     }
                 });
@@ -68,7 +68,7 @@ $(function() {
             }
         },
         loadCropper: function() {
-            if (typeof $cropperImages != 'undefined') {
+            if (typeof $cropperImages != 'undefined' && $cropperImages.length > 0) {
                 $cropper = $('#tencapture-cropper');
                 $preview = $('.cropit-preview');
                 imagesNumber = pad($cropperImages.length);
@@ -76,8 +76,10 @@ $(function() {
                     imageState: {
                         src: $cropperImages[0].image
                     },
+                    allowDragNDrop: true,
                     minZoom: 'fit',
                     onImageLoaded: function() {
+                      $('#range').val(0);
                         $('#percent').html(Math.floor($('#range').val() * 100) + '%');
                         $('.image-number').text(pad(sliderIndex + 1) + '/' + imagesNumber);
                         $('.image-caption').text($cropperImages[sliderIndex].caption);
@@ -88,7 +90,9 @@ $(function() {
                     app.nextCrop();
                 });
                 $body.on('input', '#range', function() {
-                    $('#percent').html(Math.floor($(this).val() * 100) + '%');
+                    var value = $(this).val();
+                    $cropper.cropit('zoom', value);
+                    $('#percent').html(Math.floor( value * 100) + '%');
                 });
             }
         },

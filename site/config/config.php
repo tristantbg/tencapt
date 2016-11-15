@@ -35,7 +35,7 @@ c::set('languages', array(
     'code'    => 'fr',
     'name'    => 'FR',
     'locale'  => 'fr_FR',
-    'url'     => '/fr',
+    'url'     => '/fr'
   ),
   array(
     'code'    => 'en',

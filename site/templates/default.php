@@ -8,7 +8,7 @@ $images = array();
 <div id="tencapture-cropper">
 	<div class="controls">
 		<span id="percent">0%</span>
-		<input id="range" type="range" class="cropit-image-zoom-input"/>
+		<input id="range" type="range" class="image-zoom-input" value="0" min="0" max="1" step=".25"/>
 	</div>
 	<div class="cropit-preview"></div>
 	<div class="image-info">
