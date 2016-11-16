@@ -33,7 +33,7 @@ if ($cropperGallery->isNotEmpty()):
 ?>
 
 <noscript>
-	<img src="<?= resizeOnDemand($image, 3000); ?>" alt="<?= $caption ?>" />
+	<img src="<?= resizeOnDemand($image, 2000); ?>" alt="<?= $caption ?>" />
 </noscript>
 
 <?php endforeach ?>
