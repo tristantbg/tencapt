@@ -2,6 +2,7 @@
 var width,
     height,
     menuHeight,
+    ip,
     $cropper,
     $preview,
     sliderIndex = 0,
@@ -14,6 +15,7 @@ $(function() {
             $(document).ready(function($) {
                 app.sizeSet();
                 $body = $('body');
+                ip = new ImagePreloader();
                 History.Adapter.bind(window, 'statechange', function() {
                     var State = History.getState();
                     console.log(State);
@@ -36,20 +38,19 @@ $(function() {
                     if (e.keyCode === 39 && $cropper) app.nextCrop();
                 });
                 app.menuScroll();
+                $('#intro').click(function(event) {
+                  $(this).remove();
+                });
                 $(window).load(function() {
                     app.loadCropper();
-                    $(".loader").fadeOut("fast");
+                    $(".loader").fadeOut("fast", function(){
+                      setTimeout(function(){
+                        $('#intro').remove();
+                      },1000);
+                    });
                 });
                 $(window).resize(function(event) {
                     app.sizeSet();
-                    if ($cropper) {
-                        $preview.css('width', '');
-                        var newWidth = $preview.width();
-                        $cropper.cropit('previewSize', {
-                            width: newWidth,
-                            height: height * 0.6
-                        });
-                    }
                 });
             });
         },
@@ -69,30 +70,50 @@ $(function() {
         },
         loadCropper: function() {
             if (typeof $cropperImages != 'undefined' && $cropperImages.length > 0) {
-                $cropper = $('#tencapture-cropper');
-                $preview = $('.cropit-preview');
+                $cropper = $('#scan-cropper');
+                $preview = $('#preview');
                 imagesNumber = pad($cropperImages.length);
-                $cropper.cropit({
-                    imageState: {
-                        src: $cropperImages[0].image
-                    },
-                    allowDragNDrop: true,
-                    minZoom: 'fit',
-                    onImageLoaded: function() {
-                      $('#range').val(0);
-                        $('#percent').html(Math.floor($('#range').val() * 100) + '%');
-                        $('.image-number').text(pad(sliderIndex + 1) + '/' + imagesNumber);
-                        $('.image-caption').text($cropperImages[sliderIndex].caption);
-                    }
-                });
-                $body.on('click', '.cropit-preview', function(event) {
+                app.loadImages(sliderIndex);
+                $body.on('click', '#preview', function(event) {
                     event.preventDefault();
                     app.nextCrop();
                 });
                 $body.on('input', '#range', function() {
                     var value = $(this).val();
-                    $cropper.cropit('zoom', value);
-                    $('#percent').html(Math.floor( value * 100) + '%');
+                    var zoom = value * 4 + 1;
+                    $preview.attr('class', '').addClass('zoom-' + zoom + 'x');
+                    $('#percent').html(Math.floor(value * 100) + '%');
+                });
+            }
+        },
+        loadImages: function(sliderIndex) {
+            $preview.empty().attr('class', '').addClass('zoom-1x');
+            //$('.image-caption').text('Loading');
+            var images = [];
+            for (var i = 1; i < 6; i++) {
+                images.push($cropperImages[sliderIndex]['image_' + i + 'x']);
+            }
+            ip.queue(images);
+            // Preload the queue
+            ip.preload().then(function() {
+                images.forEach(function(el, idx) {
+                    $preview.append('<img class="preview preview-' + (idx + 1) + 'x" src="' + el + '" />');
+                });
+                app.fallbackObjectFit();
+                $('.image-caption').text($cropperImages[sliderIndex].caption);
+            });
+        },
+        fallbackObjectFit: function() {
+            if (!Modernizr.objectfit) {
+                $('img.preview').each(function() {
+                    var el = $(this);
+                    var imgSrc = el.attr('src');
+                    var classes = el.attr('class');
+                    var fitType = el.css('object-fit');
+                    $('<div class="' + classes + ' fallback">').css({
+                        'background': 'transparent url("' + imgSrc + '") no-repeat center center/' + fitType,
+                    }).appendTo($preview);
+                    el.remove();
                 });
             }
         },
@@ -109,9 +130,9 @@ $(function() {
         },
         navScroll: function(event) {
             var scrollPos = $(document).scrollTop();
-            $('.section-link').each(function() {
+            $('.menu .section-link').each(function() {
                 var currLink = $(this);
-                var refElement = $(currLink.attr("href"));
+                var refElement = $('section' + currLink.attr("href"));
                 var parent = currLink.parent();
                 if (refElement.position().top - menuHeight <= scrollPos && refElement.position().top - menuHeight + refElement.outerHeight(true) > scrollPos) {
                     $('.menu span').removeClass("outline");
@@ -128,17 +149,23 @@ $(function() {
         },
         prevCrop: function() {
             sliderIndex--;
+            $('#range').val(0);
             if (sliderIndex < 0) {
                 sliderIndex = $cropperImages.length - 1;
             }
-            $cropper.cropit('imageSrc', $cropperImages[sliderIndex].image);
+            $('#percent').html(Math.floor($('#range').val() * 100) + '%');
+            $('.image-number').text(pad(sliderIndex + 1) + '/' + imagesNumber);
+            app.loadImages(sliderIndex);
         },
         nextCrop: function() {
             sliderIndex++;
+            $('#range').val(0);
             if (sliderIndex > $cropperImages.length - 1) {
                 sliderIndex = 0;
             }
-            $cropper.cropit('imageSrc', $cropperImages[sliderIndex].image);
+            $('#percent').html(Math.floor($('#range').val() * 100) + '%');
+            $('.image-number').text(pad(sliderIndex + 1) + '/' + imagesNumber);
+            app.loadImages(sliderIndex);
         },
         loadContent: function(url, target) {
             $.ajax({

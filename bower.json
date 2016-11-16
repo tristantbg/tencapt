@@ -8,7 +8,7 @@
     "normalize-css": "^5.0.0",
     "bower": "*",
     "install": "^1.0.4",
-    "cropit": "^0.5.1",
-    "smooth-scroll": "https://github.com/cferdinandi/smooth-scroll.git#^10.1.0"
+    "smooth-scroll": "https://github.com/cferdinandi/smooth-scroll.git#^10.1.0",
+    "ImagePreloader": "https://github.com/HugoGiraudel/ImagePreloader.git"
   }
 }

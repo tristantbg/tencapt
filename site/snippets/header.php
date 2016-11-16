@@ -53,7 +53,7 @@
 
 	<?php 
 	echo css('assets/css/build/build.min.css');
-	echo js('assets/js/vendor/modernizr.min.js');
+	echo js('assets/js/vendor/modernizr-lite.js');
 	?>
 	
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -70,13 +70,15 @@
 
 <div class="loader"></div>
 
+<div id="intro"><span class="outline"><?= $site->title()->html() ?></span></div>
+
 <header>
 	<div class="site-title">
 		<span class="outline"><?= $site->title()->html() ?></span>
 	</div>
 	<div class="menu">
 			<span>
-  				<a class="section-link" href="#about">About</a>
+  				<a class="section-link" href="#<?= tagslug(l::get('about')) ?>"><?= l::get('about') ?></a>
   			</span>
 		<?php foreach($page->sections()->toStructure() as $section): ?>
   			<span>

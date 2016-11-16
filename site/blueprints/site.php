@@ -29,3 +29,6 @@ fields:
     type: image
     help: 1200x630px minimum
     width: 1/2
+  footer:
+    label: Footer
+    type:  textarea

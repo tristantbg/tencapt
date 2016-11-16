@@ -1,5 +1,8 @@
-input {
-  background-color: #000;
+@media screen and (-webkit-min-device-pixel-ratio:0) {  
+/* CSS Statements that only apply on webkit-based browsers (Chrome, Safari, etc.) */  
+  input {
+    background-color: #000;
+  }
 }
 input[type=range] {
   -webkit-appearance: none;
@@ -16,12 +19,6 @@ input[type=range]::-webkit-slider-runnable-track {
   background: $secondary;
 }
 input[type=range]::-webkit-slider-thumb {
-  height: 13px;
-  width: 13px;
-  margin-top -5px
-  border-radius: 100%;
-  background: $secondary;
-  cursor: pointer;
   -webkit-appearance: none;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
@@ -32,14 +29,6 @@ input[type=range]::-moz-range-track {
   height: 2px;
   cursor: pointer;
   background: $secondary;
-}
-input[type=range]::-moz-range-thumb {
-  height: 13px;
-  width: 13px;
-  margin-top -5px
-  border-radius: 100%;
-  background: $secondary;
-  cursor: pointer;
 }
 input[type=range]::-ms-track {
   width: 100%;
@@ -53,15 +42,29 @@ input[type=range]::-ms-fill-lower {
 input[type=range]::-ms-fill-upper {
 
 }
-input[type=range]::-ms-thumb {
-  height: 13px;
-  width: 13px;
-  margin-top -5px
-  border-radius: 100%;
-  background: $secondary;
-  cursor: pointer;
-}
 input[type=range]:focus::-ms-fill-lower {
 }
 input[type=range]:focus::-ms-fill-upper {
 }
+
+thumb()
+	border-radius 100%
+	background $secondary
+	cursor pointer
+	+above($tablet + 1)
+		height 13px
+		width 13px
+		margin-top -5px
+	+below($tablet)
+		height 19px
+		width 19px
+		margin-top -8px
+
+input[type=range]::-webkit-slider-thumb
+	thumb()
+
+input[type=range]::-moz-range-thumb
+	thumb()
+		
+input[type=range]::-ms-thumb
+	thumb()
