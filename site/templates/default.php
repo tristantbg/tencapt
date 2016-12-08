@@ -9,11 +9,9 @@ $images = array();
 	<div id="preview">
 		<?php 
 		if ($cropperGallery->isNotEmpty()):
-			//thumb size
-			$res = 1500;
 			foreach($cropperGallery as $key => $crop):
 						$image = $crop->content()->toFile();
-						$full = resizeOnDemand($image, $res);
+						$full = resizeOnDemand($image, 1500);
 						$imageWidth = $image->width();
 						$caption = $crop->caption()->escape();
 						$zoom = [];
@@ -22,12 +20,12 @@ $images = array();
 						} else {
 							$download = null;
 						}
-						if($crop->zoom1()->isNotEmpty()) { $zoom[0] = resizeOnDemand($crop->zoom1()->toFile(), $res); }
-						if($crop->zoom2()->isNotEmpty()) { $zoom[1] = resizeOnDemand($crop->zoom2()->toFile(), $res); }
-						if($crop->zoom3()->isNotEmpty()) { $zoom[2] = resizeOnDemand($crop->zoom3()->toFile(), $res); }
-						if($crop->zoom4()->isNotEmpty()) { $zoom[3] = resizeOnDemand($crop->zoom4()->toFile(), $res); }
-						if($crop->zoom5()->isNotEmpty()) { $zoom[4] = resizeOnDemand($crop->zoom5()->toFile(), $res); }
-						if($crop->zoom6()->isNotEmpty()) { $zoom[5] = resizeOnDemand($crop->zoom6()->toFile(), $res); } ?>
+						if($crop->zoom1()->isNotEmpty()) { $zoom[0] = $crop->zoom1()->toFile()->url(); }
+						if($crop->zoom2()->isNotEmpty()) { $zoom[1] = $crop->zoom2()->toFile()->url(); }
+						if($crop->zoom3()->isNotEmpty()) { $zoom[2] = $crop->zoom3()->toFile()->url(); }
+						if($crop->zoom4()->isNotEmpty()) { $zoom[3] = $crop->zoom4()->toFile()->url(); }
+						if($crop->zoom5()->isNotEmpty()) { $zoom[4] = $crop->zoom5()->toFile()->url(); }
+						if($crop->zoom6()->isNotEmpty()) { $zoom[5] = $crop->zoom6()->toFile()->url(); } ?>
 
 				<div class="cell" data-flickity-bg-lazyload="<?= $full ?>" data-caption="<?= $caption ?>" data-number="<?= $key + 1 ?>" data-zoom="0" <?php if($download) { echo 'data-download="'. $download .'"'; } ?>">
 					
