@@ -25,16 +25,58 @@ fields:
                <tr>
                <td style="width:20%">Image</td>
                <td>Caption</td>
+               <td>Zoom 1</td>
+               <td>Zoom 2</td>
+               <td>Zoom 3</td>
+               <td>Zoom 4</td>
+               <td>Zoom 5</td>
+               <td>Zoom 6</td>
                </tr>
                <tr>
                <td style="width:20%"><img src="{{_thumb}}" width="80px"><br>{{content}}</td>
                <td>{{caption}}</td>
+               <td>{{zoom1}}</td>
+               <td>{{zoom2}}</td>
+               <td>{{zoom3}}</td>
+               <td>{{zoom4}}</td>
+               <td>{{zoom5}}</td>
+               <td>{{zoom6}}</td>
                </tr>
                </table>
         fields:
           content:
-            label: Image
+            label: Full image
             type: image
+            width: 1/2
+          download:
+            label: HD file to download
+            type: select
+            options: files
+            width: 1/2
+          zoom1:
+            label: Zoom 1
+            type: image
+            width: 1/2
+          zoom2:
+            label: Zoom 2
+            type: image
+            width: 1/2
+          zoom3:
+            label: Zoom 3
+            type: image
+            width: 1/2
+          zoom4:
+            label: Zoom 4
+            type: image
+            width: 1/2
+          zoom5:
+            label: Zoom 5
+            type: image
+            width: 1/2
+          zoom6:
+            label: Zoom 6
+            type: image
+            width: 1/2
           caption:
             label: Caption
             type: textarea

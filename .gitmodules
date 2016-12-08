@@ -13,6 +13,3 @@
 [submodule "site/plugins/typography"]
 	path = site/plugins/typography
 	url = https://github.com/fabianmichael/kirby-typography.git
-[submodule "site/plugins/focus"]
-	path = site/plugins/focus
-	url = https://github.com/flokosiol/kirby-focus.git

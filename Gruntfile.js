@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
             plugins: {
-                src: ['assets/oembed/oembed.min.js', 'lib/ImagePreloader/src/image-preloader.js', 'lib/history.js/scripts/bundled/html4+html5/jquery.history.js', 'lib/smooth-scroll/dist/js/smooth-scroll.min.js'],
+                src: ['lib/flickity/dist/flickity.pkgd.min.js','lib/flickity-bg-lazyload/bg-lazyload.js', 'assets/oembed/oembed.min.js', 'lib/smooth-scroll/dist/js/smooth-scroll.min.js'],
                 dest: 'assets/js/plugins.concat.js'
             },
             js: {
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
           },
           target: {
             files: {
-              'assets/css/build/build.min.css': ['lib/normalize-css/normalize.css', 'assets/oembed/oembed.css', 'assets/css/app.min.css']
+              'assets/css/build/build.min.css': ['lib/normalize-css/normalize.css', 'assets/oembed/oembed.css', 'lib/flickity/css/flickity.css', 'assets/css/app.min.css']
             }
           }
         },

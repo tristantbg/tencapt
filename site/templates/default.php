@@ -6,43 +6,50 @@ $images = array();
 ?>
 
 <div id="scan-cropper">
-	<div class="controls">
-		<span>Zoom</span><span id="percent">0%</span>
-		<input id="range" type="range" class="image-zoom-input" value="0" min="0" max="1" step=".25"/>
+	<div id="preview">
+		<?php 
+		if ($cropperGallery->isNotEmpty()):
+			//thumb size
+			$res = 1500;
+			foreach($cropperGallery as $key => $crop):
+						$image = $crop->content()->toFile();
+						$full = resizeOnDemand($image, $res);
+						$imageWidth = $image->width();
+						$caption = $crop->caption()->escape();
+						if ($crop->download()->isNotEmpty()) {
+							$download = $crop->download()->toFile()->url();
+						} else {
+							$download = null;
+						}
+						if($crop->zoom1()->isNotEmpty()) { $zoom[0] = resizeOnDemand($crop->zoom1()->toFile(), $res); }
+						if($crop->zoom2()->isNotEmpty()) { $zoom[1] = resizeOnDemand($crop->zoom2()->toFile(), $res); }
+						if($crop->zoom3()->isNotEmpty()) { $zoom[2] = resizeOnDemand($crop->zoom3()->toFile(), $res); }
+						if($crop->zoom4()->isNotEmpty()) { $zoom[3] = resizeOnDemand($crop->zoom4()->toFile(), $res); }
+						if($crop->zoom5()->isNotEmpty()) { $zoom[4] = resizeOnDemand($crop->zoom5()->toFile(), $res); }
+						if($crop->zoom6()->isNotEmpty()) { $zoom[5] = resizeOnDemand($crop->zoom6()->toFile(), $res); } ?>
+
+				<div class="cell" data-flickity-bg-lazyload="<?= $full ?>" data-caption="<?= $caption ?>" data-number="<?= $key + 1 ?>" data-zoom="0" <?php if($download) { echo 'data-download="'. $download .'"'; } ?>">
+					
+				</div>
+				<?php foreach ($zoom as $idx => $x):?>
+					<div class="cell" data-caption="<?= $caption ?>" data-number="<?= $key + 1 ?>" data-zoom="<?= $idx + 1 ?>" <?php if($download) { echo 'data-download="'. $download .'"'; } ?>>
+						<img data-flickity-lazyload="<?= $x ?>" alt="<?= $caption." - Zoom ".$key ?>" />
+					</div>
+				<?php endforeach ?>
+
+				<noscript>
+					<img src="<?= $full ?>" alt="<?= $caption ?>" />
+				</noscript>
+
+		<?php endforeach ?>
+		<?php endif ?>
 	</div>
-	<div id="preview" class="zoom-1x"></div>
 	<div class="image-info">
-	<span class="image-number">01/<?= sprintf("%02d", $cropperGallery->count()) ?></span>
-	<span class="image-caption"></span>
+	<span class="image-number">01/00</span>
+	<span class="image-caption"><?= $cropperGallery->first()->caption()->escape() ?></span>
+	<br>
+	<span class="download"><a href="#" target="_blank" rel="nofollow" download><?= l::get('download') ?></a></span>
 	</div>
-
-<?php 
-if ($cropperGallery->isNotEmpty()):
-	foreach($cropperGallery as $key => $crop):
-		$image = $crop->content()->toFile();
-		$imageWidth = $image->width();
-		$caption = $crop->caption()->escape();
-		$imageContent = new stdClass();
-		$imageContent->image = (string)resizeOnDemand($image, 1000);
-		$imageContent->caption = (string)$caption;
-	for ($i=1; $i < 6; $i++) {
-		$url = (string)$image->focusCrop($i, 1000)->url();
-		$imageContent->{'image_'.$i.'x'} = $url;
-	}
-	array_push($images, (array)$imageContent);
-?>
-
-<noscript>
-	<img src="<?= resizeOnDemand($image, 2000); ?>" alt="<?= $caption ?>" />
-</noscript>
-
-<?php endforeach ?>
-<?php endif ?>
-
-<script>
-	var $cropperImages = <?= json_encode($images) ?>;
-</script>
-
 </div>
 
 <div id="sections">
