@@ -7,7 +7,7 @@ $images = array();
 
 <div id="scan-cropper">
 	<div class="controls">
-		<span id="percent">0%</span>
+		<span>Zoom</span><span id="percent">0%</span>
 		<input id="range" type="range" class="image-zoom-input" value="0" min="0" max="1" step=".25"/>
 	</div>
 	<div id="preview" class="zoom-1x"></div>

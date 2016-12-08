@@ -45,7 +45,7 @@ c::set('languages', array(
     'url'     => '/en',
   )
 ));
-c::set('language.detect', false);
+c::set('language.detect', true);
 c::set('sitemap.exclude', array('error'));
 c::set('typography', true);
 c::set('typography.ordinal.suffix', false);

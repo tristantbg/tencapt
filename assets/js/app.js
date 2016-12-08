@@ -44,9 +44,9 @@ $(function() {
                 $(window).load(function() {
                     app.loadCropper();
                     $(".loader").fadeOut("fast", function(){
-                      setTimeout(function(){
-                        $('#intro').remove();
-                      },1000);
+                      // setTimeout(function(){
+                      //   $('#intro').remove();
+                      // },2000);
                     });
                 });
                 $(window).resize(function(event) {
