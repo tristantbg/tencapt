@@ -16,6 +16,7 @@ $images = array();
 						$full = resizeOnDemand($image, $res);
 						$imageWidth = $image->width();
 						$caption = $crop->caption()->escape();
+						$zoom = [];
 						if ($crop->download()->isNotEmpty()) {
 							$download = $crop->download()->toFile()->url();
 						} else {
