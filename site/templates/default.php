@@ -46,9 +46,7 @@ $images = array();
 		<?php endif ?>
 	</div>
 	<div class="image-info">
-	<span class="image-number">01/00</span>
 	<span class="image-caption"><?= $cropperGallery->first()->caption()->escape() ?></span>
-	<br>
 	<span class="download"><a href="#" target="_blank" rel="nofollow" download><?= l::get('download') ?></a></span>
 	</div>
 </div>

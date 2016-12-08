@@ -30,9 +30,9 @@ $(function() {
                 $(window).load(function() {
                     app.loadCropper();
                     $(".loader").fadeOut("fast", function() {
-                        // setTimeout(function(){
-                        //   $('#intro').remove();
-                        // },2000);
+                        setTimeout(function() {
+                            $('#intro').remove();
+                        }, 2000);
                     });
                 });
                 $(window).resize(function(event) {
@@ -51,6 +51,7 @@ $(function() {
             if (isMobile) {
                 if (width >= 770) {
                     //location.reload();
+                    isMobile = false;
                 }
             }
         },
@@ -78,7 +79,6 @@ $(function() {
             $slider.on('select.flickity', function() {
                 var cell = $(flkty.selectedElement);
                 var imageTitle = cell.attr('data-caption');
-                var nb = cell.attr('data-number');
                 var zoom = cell.attr('data-zoom');
                 var dl = cell.attr('data-download');
                 $caption.html(imageTitle);
@@ -87,7 +87,6 @@ $(function() {
                 } else {
                     $download.hide();
                 }
-                $imageNumber.text(pad(nb) + '/' + pad(zoom));
             });
             // $slider.on('staticClick.flickity', function(event, pointer, cellElement, cellIndex) {
             //     if (!cellElement) {
@@ -124,8 +123,6 @@ $(function() {
                 }
             });
         },
-        prevCrop: function() {},
-        nextCrop: function() {},
         loadContent: function(url, target) {
             $.ajax({
                 url: url,
@@ -133,14 +130,6 @@ $(function() {
                     $(target).html(data);
                 }
             });
-        },
-        deferImages: function() {
-            var imgDefer = document.getElementsByTagName('img');
-            for (var i = 0; i < imgDefer.length; i++) {
-                if (imgDefer[i].getAttribute('data-src')) {
-                    imgDefer[i].setAttribute('src', imgDefer[i].getAttribute('data-src'));
-                }
-            }
         }
     };
     app.init();
