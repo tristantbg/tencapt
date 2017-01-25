@@ -1,4 +1,4 @@
-<section id="<?= tagslug($data->sectiontitle()->html()) ?>">
+<section id="<?= tagslug($data->sectiontitle()) ?>">
   <div class="section-title">
   	<span class="outline">
   		<?= $data->sectiontitle()->html() ?>

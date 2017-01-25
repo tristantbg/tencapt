@@ -82,7 +82,7 @@
   			</span>
 		<?php foreach($page->sections()->toStructure() as $section): ?>
   			<span>
-  				<a class="section-link" href="#<?= tagslug($section->sectiontitle()->html()) ?>"><?= $section->sectiontitle()->html() ?></a>
+  				<a class="section-link" href="#<?= tagslug($section->sectiontitle()) ?>"><?= $section->sectiontitle()->html() ?></a>
   			</span>
 		<?php endforeach ?>
 	</div>

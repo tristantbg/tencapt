@@ -51,6 +51,9 @@ sup
 em, em a, em a:hover, em a:visited, em a:focus
 	color $accent
 
+a[href^="mailto"]
+	display inline-block
+
 table
 	width 100%
 	table-layout fixed
@@ -225,7 +228,7 @@ header:hover
 		position fixed
 		width 46.5%
 		right 0
-		margin 0 3rem
+		margin .5rem 3rem
 	+below($tablet)
 		stack()
 	.controls
