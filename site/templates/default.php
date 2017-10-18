@@ -45,7 +45,7 @@ $images = array();
 	</div>
 	<div class="image-info">
 	<span class="image-caption"><?= $cropperGallery->first()->caption()->escape() ?></span>
-	<span class="download"><a href="#" target="_blank" rel="nofollow" download><?= l::get('download') ?></a></span>
+	<span class="download"<?php e(!$download, ' style="display: none;"') ?>><a href="#" target="_blank" rel="nofollow" download><?= l::get('download') ?></a></span>
 	</div>
 </div>
 
