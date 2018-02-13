@@ -68,6 +68,7 @@ $(function() {
                 lazyLoad: 1,
                 bgLazyLoad: 1,
                 setGallerySize: false,
+                autoPlay: 3000,
                 //percentPosition: false,
                 accessibility: false,
                 wrapAround: true,
